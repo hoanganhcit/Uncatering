@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Uncatering - Order individually. Eat as a team.</title>
+    <title>Epicater - Order individually. Eat as a team.</title>
 
     <!-- Bootstrap 3 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -18,6 +18,9 @@
 
     <!-- Font Awesome for Icons -->
     <link href="https://kit-pro.fontawesome.com/releases/v5.15.3/css/pro.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Google Maps Places API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu5M_1M-gcisRWlLhFWAjpGuA03zhNpL0&libraries=places"></script>
 
     <style>
         * {
@@ -132,7 +135,7 @@
         }
 
         .hero-section .text-emerald {
-            color: #10b981;
+            color: #ff9933;
         }
 
         .hero-section .lead {
@@ -498,7 +501,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><i class="fal fa-utensils-alt"></i> Uncatering</a>
+                <a class="navbar-brand" href="#">
+                    <img src="logo.png" alt="Epicater" style="height: 25px; display: inline-block; margin-right: 8px;">
+                </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right hidden-xs align-items-center d-flex">
@@ -653,8 +658,8 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="form-group">
-                        <label>Allowance (company)</label>
-                        <input type="number" class="form-control form-control-custom" id="allowance" value="15">
+                        <label>Address</label>
+                        <input type="text" class="form-control form-control-custom" id="cart-address" value="">
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -701,16 +706,6 @@
                             <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                                 <span>Subtotal</span>
                                 <span>$<span id="cart-subtotal">0.00</span></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span>Allowance</span>
-                                <span>$<span id="cart-allowance">15.00</span></span>
-                            </div>
-                            <div id="overage-row" style="display: none; color: #dc3545; font-weight: 500;">
-                                <div style="display: flex; justify-content: space-between;">
-                                    <span>Overage</span>
-                                    <span>$<span id="cart-overage">0.00</span></span>
-                                </div>
                             </div>
                         </div>
 
@@ -950,10 +945,10 @@
         ];
 
         const menuItems = [
-            { title: "Grilled Chicken Power Bowl", tags: ["GF", "High‑Protein"], calories: 620 },
-            { title: "Miso Tofu Bento", tags: ["Vegan", "Low‑Sugar"], calories: 480 },
-            { title: "Beef Bulgogi & Rice", tags: ["Dairy‑Free"], calories: 710 },
-            { title: "Harissa Roasted Veg & Halloumi", tags: ["Veg", "GF"], calories: 540 }
+            { title: "Grilled Chicken Power Bowl", tags: ["GF", "High‑Protein"] },
+            { title: "Miso Tofu Bento", tags: ["Vegan", "Low‑Sugar"] },
+            { title: "Beef Bulgogi & Rice", tags: ["Dairy‑Free"] },
+            { title: "Harissa Roasted Veg & Halloumi", tags: ["Veg", "GF"]}
         ];
 
         const catalog = {
@@ -990,7 +985,7 @@
         let selectedVendors = [];
         let cart = [];
         let teamSize = 10;
-        let allowance = 15;
+        let deliveryAddress = '';
 
         // Helper Functions
         function allowedVendorsByTeamSize(size) {
@@ -1042,7 +1037,6 @@
                         <div class="menu-item h-100">
                             <h4><i class="far fa-salad"></i> ${m.title}</h4>
                             <div class="tags">${tagsHtml}</div>
-                            <p style="color: #666; font-size: 13px;">~${m.calories} kcal</p>
                         </div>
                     </div>
                 `;
@@ -1256,17 +1250,7 @@
 
         function updateCartTotals() {
             const subtotal = parseFloat(calcTotal(cart));
-            const overage = Math.max(0, subtotal - allowance);
-
             $('#cart-subtotal').text(subtotal.toFixed(2));
-            $('#cart-allowance').text(allowance.toFixed(2));
-            $('#cart-overage').text(overage.toFixed(2));
-
-            if (overage > 0) {
-                $('#overage-row').show();
-            } else {
-                $('#overage-row').hide();
-            }
         }
 
         // Event Handlers
@@ -1286,9 +1270,28 @@
             renderMenu();
         });
 
-        $('#allowance').on('input', function () {
-            allowance = parseFloat($(this).val()) || 0;
-            updateCartTotals();
+        // Google Maps Autocomplete
+        let autocomplete;
+        function initAutocomplete() {
+            const input = document.getElementById('cart-address');
+            if (input && window.google && window.google.maps && window.google.maps.places) {
+                autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['address'],
+                    componentRestrictions: { country: ['ca', 'us'] }
+                });
+                
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.formatted_address) {
+                        deliveryAddress = place.formatted_address;
+                        $('#cart-address').val(deliveryAddress);
+                    }
+                });
+            }
+        }
+
+        $('#cart-address').on('input', function() {
+            deliveryAddress = $(this).val();
         });
 
         // Checkout Form
@@ -1300,15 +1303,15 @@
             const dietNotes = $('#diet-notes').val().trim();
             const date = $('#delivery-date').val();
             const time = $('#delivery-time').val();
+            const address = $('#cart-address').val().trim();
 
-            if (!name || !email || cart.length === 0 || !date || !time || allowance <= 0) {
-                alert('Please complete all required fields and add at least one item.');
+            if (!name || !email || cart.length === 0 || !date || !time || !address) {
+                alert('Please complete all required fields including delivery address and add at least one item.');
                 return;
             }
 
             const vendorLimit = allowedVendorsByTeamSize(teamSize);
             const subtotal = parseFloat(calcTotal(cart));
-            const overage = Math.max(0, subtotal - allowance);
 
             const payload = {
                 employee: { name, email, dietNotes },
@@ -1318,21 +1321,22 @@
                 order: {
                     date,
                     time,
-                    allowance,
+                    address,
                     items: cart,
-                    subtotal,
-                    overage
+                    subtotal
                 }
             };
 
             console.log('Uncatering ORDER', payload);
-            alert(`Order created! Vendors used: ${selectedVendors.length} / ${vendorLimit}. Subtotal: $${subtotal.toFixed(2)}${overage > 0 ? ` (over by $${overage.toFixed(2)})` : ''}`);
+            alert(`Order created! Vendors used: ${selectedVendors.length} / ${vendorLimit}. Subtotal: $${subtotal.toFixed(2)}. Delivery to: ${address}`);
 
             cart = [];
+            deliveryAddress = '';
             renderCart();
             $('#customer-name').val('');
             $('#customer-email').val('');
             $('#diet-notes').val('');
+            $('#cart-address').val('');
         });
 
         // Contact Form
@@ -1436,6 +1440,9 @@
             renderVendors();
             renderMenu();
             renderCart();
+
+            // Initialize Google Maps Autocomplete
+            setTimeout(initAutocomplete, 500);
 
             // Run tests
             console.assert(allowedVendorsByTeamSize(5) === 1, "Limit Test: <=20 should be 1");
