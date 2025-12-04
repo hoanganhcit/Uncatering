@@ -21,7 +21,7 @@
             padding: 20px;
         }
 
-        .container {
+        .container-section {
             max-width: 800px;
             margin: 0 auto;
             background-color: white;
@@ -30,23 +30,23 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
+        .h1-title {
             color: #333;
             margin-bottom: 10px;
             font-size: 28px;
         }
 
-        .subtitle {
+        .text-subtitle {
             color: #666;
             margin-bottom: 30px;
             font-size: 14px;
         }
 
-        .section {
+        .content-section {
             margin-bottom: 30px;
         }
 
-        .section-title {
+        .h2-title {
             color: #333;
             font-size: 20px;
             margin-bottom: 15px;
@@ -82,13 +82,13 @@
             border-left-color: #ff9933;
         }
 
-        .menu-item h3 {
+        .h3-title {
             color: #333;
             font-size: 18px;
             margin-bottom: 5px;
         }
 
-        .menu-item h4 {
+        .h4-subtitle {
             font-size: 14px;
             font-weight: 500;
             display: block;
@@ -221,11 +221,11 @@
         }
 
         @media (max-width: 768px) {
-            .container {
+            .container-section {
                 padding: 20px;
             }
 
-            h1 {
+            .h1-title {
                 font-size: 24px;
             }
 
@@ -242,20 +242,20 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Employee Order Selection</h1>
-        <p class="subtitle">Please confirm your menu selection and provide your information</p>
+    <div class="container-section">
+        <h1 class="h1-title">Employee Order Selection</h1>
+        <p class="text-subtitle">Please confirm your menu selection and provide your information</p>
 
         <!-- Selected Menus Section -->
-        <div class="section">
-            <h2 class="section-title">Available Menus - Select One</h2>
-            <p class="subtitle" style="margin-top: 10px;">Please choose one menu from the options below</p>
+        <div class="content-section">
+            <h2 class="h2-title">Available Menus - Select One</h2>
+            <p class="text-subtitle" style="margin-top: 10px;">Please choose one menu from the options below</p>
             <div class="menu-list">
                 <div class="menu-item menu-selectable" onclick="selectMenu(1)">
                     <input type="radio" name="menuChoice" id="menu1" value="1" style="display: none;">
                     <div class="menu-content">
-                        <h3>Menu 1: Mediterranean Delight</h3>
-                        <h4>Verdant Bowl • $13.50</h4>
+                        <h3 class="h3-title">Menu 1: Mediterranean Delight</h3>
+                        <h4 class="h4-subtitle">Verdant Bowl • $13.50</h4>
                         <p>Grilled chicken with quinoa, roasted vegetables, and tahini sauce</p>
                         <div><span class="badge-custom">GF</span>
                             <span class="badge-custom">VG</span>
@@ -270,8 +270,8 @@
                 <div class="menu-item menu-selectable" onclick="selectMenu(2)">
                     <input type="radio" name="menuChoice" id="menu2" value="2" style="display: none;">
                     <div class="menu-content">
-                        <h3>Menu 2: Asian Fusion Bowl</h3>
-                        <h4>Verdant Bowl • $14.50</h4>
+                        <h3 class="h3-title">Menu 2: Asian Fusion Bowl</h3>
+                        <h4 class="h4-subtitle">Verdant Bowl • $14.50</h4>
                         <p>Teriyaki salmon with jasmine rice, edamame, and pickled vegetables</p>
                         <div><span class="badge-custom">GF</span>
                             <span class="badge-custom">VG</span>
@@ -286,8 +286,8 @@
                 <div class="menu-item menu-selectable" onclick="selectMenu(3)">
                     <input type="radio" name="menuChoice" id="menu3" value="3" style="display: none;">
                     <div class="menu-content">
-                        <h3>Menu 3: Classic Italian Pasta</h3>
-                        <h4>Verdant Bowl • $15.00</h4>
+                        <h3 class="h3-title">Menu 3: Classic Italian Pasta</h3>
+                        <h4 class="h4-subtitle">Verdant Bowl • $15.00</h4>
                         <p>Penne pasta with marinara sauce, fresh basil, and parmesan cheese</p>
                         <div><span class="badge-custom">GF</span>
                             <span class="badge-custom">VG</span>
@@ -303,8 +303,8 @@
         </div>
 
         <!-- Order Information Section -->
-        <div class="section">
-            <h2 class="section-title">Delivery Information</h2>
+        <div class="content-section">
+            <h2 class="h2-title">Delivery Information</h2>
             <div class="order-info">
                 <div class="info-row">
                     <span class="info-label">Address:</span>
@@ -322,8 +322,8 @@
         </div>
 
         <!-- Employee Information Form -->
-        <div class="section">
-            <h2 class="section-title">Employee Information</h2>
+        <div class="content-section">
+            <h2 class="h2-title">Employee Information</h2>
             <form id="employeeForm" onsubmit="handleSubmit(event)">
                 <div class="form-group">
                     <label for="employeeName">Full Name <span class="required">*</span></label>
