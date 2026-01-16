@@ -20,7 +20,8 @@
     <link href="https://kit-pro.fontawesome.com/releases/v5.15.3/css/pro.min.css" rel="stylesheet" type="text/css">
 
     <!-- Google Maps Places API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu5M_1M-gcisRWlLhFWAjpGuA03zhNpL0&libraries=places"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu5M_1M-gcisRWlLhFWAjpGuA03zhNpL0&libraries=places"></script>
 
     <style>
         * {
@@ -323,7 +324,7 @@
 
         .vendor-checkbox:hover {
             border-color: #0f172a;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .vendor-checkbox.disabled {
@@ -399,13 +400,16 @@
         .menu-product-inner {
             display: flex;
             gap: 0;
+            padding: 15px;
         }
 
         .menu-product-image {
-            width: 200px;
-            height: 200px;
+            width: 60px;
+            height: 60px;
             flex-shrink: 0;
             position: relative;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .menu-product-image img {
@@ -414,65 +418,9 @@
             object-fit: cover;
         }
 
-        .menu-product-image .carousel {
-            height: 100%;
-        }
-
-        .menu-product-image .carousel-inner {
-            height: 100%;
-        }
-
-        .menu-product-image .carousel-inner .item {
-            height: 100%;
-        }
-
-        .menu-product-image .carousel-control {
-            background: none;
-            width: 35px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .menu-product:hover .carousel-control {
-            opacity: 0.8;
-        }
-
-        .menu-product-image .carousel-control:hover {
-            opacity: 1;
-        }
-
-        .menu-product-image .carousel-control.left,
-        .menu-product-image .carousel-control.right {
-            background-image: none;
-        }
-
-        .menu-product-image .carousel-control .glyphicon {
-            top: 50%;
-            margin-top: -10px;
-            font-size: 20px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-        }
-
-        .menu-product-image .carousel-indicators {
-            bottom: 10px;
-        }
-
-        .menu-product-image .carousel-indicators li {
-            width: 8px;
-            height: 8px;
-            border: 1px solid #fff;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .menu-product-image .carousel-indicators .active {
-            width: 10px;
-            height: 10px;
-            background-color: #fff;
-        }
-
         .menu-product-content {
             flex: 1;
-            padding: 20px;
+            padding-left: 15px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -488,14 +436,14 @@
         .menu-product-vendor {
             font-size: 13px;
             color: #666;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .menu-product-tags {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
         .menu-product-tag {
@@ -514,8 +462,8 @@
         }
 
         .menu-product-price {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 600;
             color: #0f172a;
         }
 
@@ -688,6 +636,12 @@
 
         .cuisines-group .checkbox {
             margin: 0;
+        }
+
+        button.btn.btn-primary.add-to-cart {
+            font-size: 11px !important;
+            padding: 3px 9px !important;
+            border-radius: 4px !important;
         }
     </style>
 </head>
@@ -1150,77 +1104,101 @@
             { title: "Grilled Chicken Power Bowl", tags: ["GF", "High‑Protein"] },
             { title: "Miso Tofu Bento", tags: ["Vegan", "Low‑Sugar"] },
             { title: "Beef Bulgogi & Rice", tags: ["Dairy‑Free"] },
-            { title: "Harissa Roasted Veg & Halloumi", tags: ["Veg", "GF"]}
+            { title: "Harissa Roasted Veg & Halloumi", tags: ["Veg", "GF"] }
         ];
 
         const catalog = {
             "Saffron & Steam": [
-                { id: "ss1", name: "Butter Chicken Bowl", price: 16.5, tags: ["GF"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "ss2", name: "Chana Masala (V)", price: 13.0, tags: ["Vegan"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "ss3", name: "Tandoori Paneer Wrap", price: 14.5, tags: [], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] }
+                {
+                    id: "ss1", name: "Butter Chicken Bowl", price: 16.5, tags: ["GF"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "ss2", name: "Chana Masala (V)", price: 13.0, tags: ["Vegan"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "ss3", name: "Tandoori Paneer Wrap", price: 14.5, tags: [], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                }
             ],
             "Bento Planet": [
-                { id: "bp1", name: "Salmon Teriyaki Bento", price: 18.0, tags: [], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "bp2", name: "Miso Tofu Bento", price: 14.0, tags: ["Vegan"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "bp3", name: "Chicken Karaage Bowl", price: 16.0, tags: [], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] }
+                {
+                    id: "bp1", name: "Salmon Teriyaki Bento", price: 18.0, tags: [], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "bp2", name: "Miso Tofu Bento", price: 14.0, tags: ["Vegan"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "bp3", name: "Chicken Karaage Bowl", price: 16.0, tags: [], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                }
             ],
             "Verdant Bowl": [
-                { id: "vb1", name: "Falafel Rainbow Bowl", price: 13.5, tags: ["Vegan"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "vb2", name: "Tahini Cauli Power", price: 14.5, tags: ["GF", "Veg"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "vb3", name: "Smoky Tempeh Greens", price: 15.0, tags: ["Vegan"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] }
+                {
+                    id: "vb1", name: "Falafel Rainbow Bowl", price: 13.5, tags: ["Vegan"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "vb2", name: "Tahini Cauli Power", price: 14.5, tags: ["GF", "Veg"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "vb3", name: "Smoky Tempeh Greens", price: 15.0, tags: ["Vegan"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                }
             ],
             "Tortilla Republic": [
-                { id: "tr1", name: "Chicken Burrito", price: 12.5, tags: [], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "tr2", name: "Veggie Burrito (V)", price: 11.5, tags: ["Vegan"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] },
-                { id: "tr3", name: "Carnitas Bowl", price: 13.5, tags: ["GF"], images: [
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
-                    "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
-                ] }
+                {
+                    id: "tr1", name: "Chicken Burrito", price: 12.5, tags: [], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "tr2", name: "Veggie Burrito (V)", price: 11.5, tags: ["Vegan"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                },
+                {
+                    id: "tr3", name: "Carnitas Bowl", price: 13.5, tags: ["GF"], images: [
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop"
+                    ]
+                }
             ]
         };
 
@@ -1386,61 +1364,20 @@
                         ? item.tags.map(t => `<span class="menu-product-tag">${t}</span>`).join('')
                         : '<span class="menu-product-tag" style="opacity: 0;">-</span>';
 
-                    // Create carousel ID
-                    const carouselId = `carousel-${item.vendor.replace(/\s+/g, '-')}-${item.id}`;
-                    
-                    // Create carousel indicators
-                    let indicatorsHtml = '';
-                    if (item.images && item.images.length > 1) {
-                        indicatorsHtml = '<ol class="carousel-indicators">';
-                        item.images.forEach((img, imgIndex) => {
-                            indicatorsHtml += `<li data-target="#${carouselId}" data-slide-to="${imgIndex}" class="${imgIndex === 0 ? 'active' : ''}"></li>`;
-                        });
-                        indicatorsHtml += '</ol>';
-                    }
-
-                    // Create carousel items
-                    let carouselItemsHtml = '';
-                    if (item.images && item.images.length > 0) {
-                        item.images.forEach((img, imgIndex) => {
-                            carouselItemsHtml += `
-                                <div class="item ${imgIndex === 0 ? 'active' : ''}">
-                                    <img src="${img}" alt="${item.name} - Image ${imgIndex + 1}">
-                                </div>
-                            `;
-                        });
-                    }
-
-                    // Create carousel controls
-                    let controlsHtml = '';
-                    if (item.images && item.images.length > 1) {
-                        controlsHtml = `
-                            <a class="left carousel-control" href="#${carouselId}" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a class="right carousel-control" href="#${carouselId}" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
-                        `;
-                    }
+                    // Get first image only
+                    const imageUrl = item.images && item.images.length > 0 ? item.images[0] : '';
 
                     html += `
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="menu-product">
                                 <div class="menu-product-inner">
                                     <div class="menu-product-image">
-                                        <div id="${carouselId}" class="carousel slide" data-ride="carousel" data-interval="false">
-                                            ${indicatorsHtml}
-                                            <div class="carousel-inner">
-                                                ${carouselItemsHtml}
-                                            </div>
-                                            ${controlsHtml}
-                                        </div>
+                                        <img src="${imageUrl}" alt="${item.name}">
                                     </div>
                                     <div class="menu-product-content">
                                         <div>
-                                            <div class="menu-product-header">
-                                                <h4>${item.name}</h4>
+                                            <div class="vendor-info">
+                                                <h5>${item.name}</h5>
                                             </div>
                                             <div class="menu-product-vendor">
                                                 <i class="fal fa-store"></i> ${item.vendor}
@@ -1597,8 +1534,8 @@
                     types: ['address'],
                     componentRestrictions: { country: ['ca', 'us'] }
                 });
-                
-                autocomplete.addListener('place_changed', function() {
+
+                autocomplete.addListener('place_changed', function () {
                     const place = autocomplete.getPlace();
                     if (place.formatted_address) {
                         deliveryAddress = place.formatted_address;
@@ -1608,7 +1545,7 @@
             }
         }
 
-        $('#cart-address').on('input', function() {
+        $('#cart-address').on('input', function () {
             deliveryAddress = $(this).val();
         });
 
