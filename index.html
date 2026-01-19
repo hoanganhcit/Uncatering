@@ -841,13 +841,12 @@
                         <div id="vendors-list" class="row">
                             <!-- Will be populated by JavaScript -->
                         </div>
-
+<!-- 
                         <hr>
 
                         <h4>Menu</h4>
                         <div id="menu-items" class="row">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -1083,6 +1082,26 @@
             <p>Made for teams that lunch better.</p>
         </div>
     </footer>
+
+    <!-- Menu Modal -->
+    <div class="modal fade" id="menu_item" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modal-vendor-name">Menu Items</h4>
+                </div>
+                <div class="modal-body" id="modal-menu-items">
+                    <!-- Menu items will be populated here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1325,23 +1344,125 @@
             });
             $('#vendors-list').html(html);
 
-            // Add click handlers
-            $('.vendor-checkbox').click(function () {
-                if ($(this).hasClass('disabled')) return;
-                const vendor = $(this).data('vendor');
-                const checkbox = $(this).find('input[type="checkbox"]');
-                const isChecked = checkbox.prop('checked');
-
+            // Add click handlers - only on checkbox
+            $('.vendor-checkbox input[type="checkbox"]').click(function (e) {
+                e.stopPropagation(); // Prevent event bubbling
+                
+                const $vendorBox = $(this).closest('.vendor-checkbox');
+                if ($vendorBox.hasClass('disabled')) {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                const vendor = $vendorBox.data('vendor');
+                const isChecked = $(this).prop('checked');
+                
                 if (isChecked) {
-                    selectedVendors = selectedVendors.filter(v => v !== vendor);
-                } else {
-                    if (selectedVendors.length < vendorLimit) {
+                    // Add vendor to selection
+                    if (!selectedVendors.includes(vendor)) {
                         selectedVendors.push(vendor);
                     }
+                    
+                    // Show or update modal with all selected vendors' menu items
+                    if ($('#menu_item').hasClass('in')) {
+                        // Modal is already open, just update content
+                        showVendorMenuModal();
+                    } else {
+                        // Open modal
+                        showVendorMenuModal();
+                        $('#menu_item').modal('show');
+                    }
+                } else {
+                    // Uncheck - remove vendor from selection
+                    selectedVendors = selectedVendors.filter(v => v !== vendor);
+                    
+                    // Update modal if it's open
+                    if ($('#menu_item').hasClass('in')) {
+                        showVendorMenuModal();
+                    }
                 }
-
+                
                 renderVendors();
                 renderMenu();
+            });
+        }
+
+        function showVendorMenuModal() {
+            const vendorCount = selectedVendors.length;
+            $('#modal-vendor-name').text(vendorCount > 0 ? `Selected Vendors (${vendorCount})` : 'No Vendors Selected');
+            
+            let html = '';
+            if (selectedVendors.length === 0) {
+                html = '<p style="color: #666;">Please select vendors to see their menu items.</p>';
+            } else {
+                html = '<div class="row">';
+                
+                selectedVendors.forEach(vendorName => {
+                    if (catalog[vendorName]) {
+                        const items = catalog[vendorName];
+                        items.forEach((item, index) => {
+                            let tagsHtml = item.tags && item.tags.length > 0
+                                ? item.tags.map(t => `<span class="menu-product-tag">${t}</span>`).join('')
+                                : '<span class="menu-product-tag" style="opacity: 0;">-</span>';
+
+                            const imageUrl = item.images && item.images.length > 0 ? item.images[0] : '';
+
+                            html += `
+                                <div class="col-md-6">
+                                    <div class="menu-product" style="margin-bottom: 15px;">
+                                        <div class="menu-product-inner">
+                                            <div class="menu-product-image">
+                                                <img src="${imageUrl}" alt="${item.name}">
+                                            </div>
+                                            <div class="menu-product-content">
+                                                <div>
+                                                    <div class="vendor-info">
+                                                        <h5>${item.name}</h5>
+                                                    </div>
+                                                    <div class="menu-product-vendor">
+                                                        <i class="fal fa-store"></i> ${vendorName}
+                                                    </div>
+                                                    <div class="menu-product-tags">
+                                                        ${tagsHtml}
+                                                    </div>
+                                                </div>
+                                                <div class="menu-product-footer">
+                                                    <div class="menu-product-price">
+                                                        $${item.price.toFixed(2)}
+                                                    </div>
+                                                    <button class="btn btn-primary add-to-cart-modal" data-vendor="${vendorName}" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">
+                                                        <i class="fal fa-plus"></i> Add to cart
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                });
+                
+                html += '</div>';
+            }
+
+            $('#modal-menu-items').html(html);
+            
+            // Add click handlers for modal add to cart buttons
+            $('.add-to-cart-modal').off('click').on('click', function () {
+                const vendor = $(this).data('vendor');
+                const id = $(this).data('id');
+                const name = $(this).data('name');
+                const price = parseFloat($(this).data('price'));
+
+                addToCart({ vendor, id, name, price });
+                
+                // Show success feedback
+                const $btn = $(this);
+                $btn.html('<i class="fal fa-check"></i> Added').prop('disabled', true);
+                setTimeout(() => {
+                    $btn.html('<i class="fal fa-plus"></i> Add to cart').prop('disabled', false);
+                }, 1000);
             });
         }
 
@@ -1517,9 +1638,11 @@
             $('#display-vendor-limit').text(vendorLimit);
             $('#vendor-limit-text').text(vendorLimit);
 
-            // Auto-select closest vendors
-            const sorted = [...restaurants].sort((a, b) => a.distanceKm - b.distanceKm);
-            selectedVendors = selectClosestWithin(sorted, vendorLimit, MAX_DISTANCE_KM);
+            // Don't auto-select vendors, let user choose
+            // Keep existing selections if within new limit
+            if (selectedVendors.length > vendorLimit) {
+                selectedVendors = selectedVendors.slice(0, vendorLimit);
+            }
 
             renderVendors();
             renderMenu();
@@ -1686,7 +1809,7 @@
             // Initialize order section
             const vendorLimit = allowedVendorsByTeamSize(teamSize);
             const sorted = [...restaurants].sort((a, b) => a.distanceKm - b.distanceKm);
-            selectedVendors = selectClosestWithin(sorted, vendorLimit, MAX_DISTANCE_KM);
+            selectedVendors = []; // Don't auto-select vendors initially
 
             $('#display-team-size').text(teamSize);
             $('#display-vendor-limit').text(vendorLimit);
