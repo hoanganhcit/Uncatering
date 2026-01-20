@@ -382,6 +382,31 @@
             cursor: pointer;
         }
 
+        .checkbox-overlay {
+            display: none;
+        }
+
+        .vendor-checkbox {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .vendor-checkbox.active {
+            border-color: #10b981 !important;
+        }
+
+        .vendor-checkbox.active::after {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Pro";
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 20px;
+            transform: translateY(-50%);
+            color: #10b981;
+            font-size: 20px;
+        }
+
         .menu-product {
             border: 1px solid #e5e5e5;
             border-radius: 16px;
@@ -1327,7 +1352,7 @@
 
                 html += `
                     <div class="col-sm-6">
-                        <div class="vendor-checkbox ${disabled && !checked ? 'disabled' : ''}" data-vendor="${r.name}" data-distance="${r.distanceKm}">
+                        <div class="vendor-checkbox relative ${disabled && !checked ? 'disabled' : ''} ${checked ? 'active' : ''}" data-vendor="${r.name}" data-distance="${r.distanceKm}">
                             <img src="${r.logo}" alt="${r.name}" class="vendor-logo">
                             <div class="vendor-info">
                                 <h5>${r.name} <span class="badge-custom">${r.distanceKm} km</span></h5>
@@ -1337,25 +1362,36 @@
                                     <span><i class="fal fa-clock"></i> ${r.cutoffTime}</span>
                                 </div>
                             </div>
-                            <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+                            <div class="checkbox-overlay">
+                                <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+                            </div>
                         </div>
                     </div>
                 `;
             });
             $('#vendors-list').html(html);
 
-            // Add click handlers - only on checkbox
-            $('.vendor-checkbox input[type="checkbox"]').click(function (e) {
-                e.stopPropagation(); // Prevent event bubbling
+            // Add click handlers - click on entire vendor-checkbox
+            $('.vendor-checkbox').click(function (e) {
+                const $vendorBox = $(this);
                 
-                const $vendorBox = $(this).closest('.vendor-checkbox');
                 if ($vendorBox.hasClass('disabled')) {
-                    e.preventDefault();
                     return false;
                 }
                 
+                // Toggle checkbox state
+                const $checkbox = $vendorBox.find('input[type="checkbox"]');
+                const isChecked = !$checkbox.prop('checked');
+                $checkbox.prop('checked', isChecked);
+                
+                // Toggle active class
+                if (isChecked) {
+                    $vendorBox.addClass('active');
+                } else {
+                    $vendorBox.removeClass('active');
+                }
+                
                 const vendor = $vendorBox.data('vendor');
-                const isChecked = $(this).prop('checked');
                 
                 if (isChecked) {
                     // Add vendor to selection
