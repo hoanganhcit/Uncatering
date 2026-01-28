@@ -1362,12 +1362,12 @@
                 let tagsHtml = m.tags.map(t => `<span class="tag">${t}</span>`).join('');
                 html += `
                     <div class="col-md-3 col-sm-6">
-                        <div class="menu-item h-100">
-                            <h4><i class="far fa-salad"></i> ${m.title}</h4>
+                        <div class="menu-item ">
+                            <h4 class="d-flex align-items-center gap-2">
+                                <img src="${m.logoVendor}" alt="Vendor Logo" style="height: 50px;"> 
+                                <span>${m.title}</span>
+                            </h4>
                             <div class="tags">${tagsHtml}</div>
-                            <div class="vendor-logo-small">
-                                <img src="${m.logoVendor}" alt="Vendor Logo">
-                            </div>
                         </div>
                     </div>
                 `;
