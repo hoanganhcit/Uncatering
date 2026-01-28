@@ -123,9 +123,26 @@
 
         /* Hero Section */
         .hero-section {
-            /* background: linear-gradient(to bottom, #ecfdf5 0%, #ffffff 100%); */
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.5)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop') center center / cover no-repeat;
             padding: 120px 0 80px;
             text-align: center;
+            position: relative;
+        }
+        
+        .hero-section h1,
+        .hero-section .lead,
+        .hero-section .hero-stats {
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-section .text-emerald {
+            color: #fbbf24;
+        }
+        
+        .hero-section .hero-stats > div {
+            color: #f3f4f6;
         }
 
         .hero-section h1 {
@@ -141,7 +158,7 @@
 
         .hero-section .lead {
             font-size: 18px;
-            color: #666;
+            /* color: #666; */
             max-width: 800px;
             margin: 0 auto 30px;
         }
@@ -247,7 +264,7 @@
         .restaurant-card img {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .restaurant-card-body {
@@ -668,6 +685,47 @@
             padding: 3px 9px !important;
             border-radius: 4px !important;
         }
+        
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .grid.col-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        
+        @media (max-width: 1200px) {
+            .grid.col-5 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .grid.col-5 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .grid.col-5 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid.col-5 {
+                grid-template-columns: 1fr;
+            }
+        }
+        .vendor-logo-small {
+            display: block;
+        }
+
+        .vendor-logo-small img {
+            height: 50px;
+        }
     </style>
 </head>
 
@@ -785,11 +843,8 @@
                     <h2 class="section-title" style="text-align: left;">Restaurants we partner with</h2>
                     <p style="color: #666;">Closest first, based on sample distances.</p>
                 </div>
-                <div class="col-md-4 text-right">
-                    <button class="btn btn-default hidden-xs hidden-sm">See full roster</button>
-                </div>
             </div>
-            <div class="row" id="restaurants-list">
+            <div class="grid col-5" id="restaurants-list">
                 <!-- Will be populated by JavaScript -->
             </div>
         </div>
@@ -1138,17 +1193,18 @@
         const MAX_DISTANCE_KM = 10;
 
         const restaurants = [
-            { name: "Saffron & Steam", cuisine: "Indian Fusion", distanceKm: 1.2, img: "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=1200&auto=format&fit=crop", logo: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=100&auto=format&fit=crop", tags: ["Halal", "Popular"], cutoffTime: "10:00 AM" },
-            { name: "Bento Planet", cuisine: "Japanese", distanceKm: 2.8, img: "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=1200&auto=format&fit=crop", logo: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?q=80&w=100&auto=format&fit=crop", tags: ["Sushi", "Healthy"], cutoffTime: "9:30 AM" },
-            { name: "Verdant Bowl", cuisine: "Vegan", distanceKm: 0.9, img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop", logo: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=100&auto=format&fit=crop", tags: ["Vegan", "GF Options"], cutoffTime: "11:00 AM" },
-            { name: "Tortilla Republic", cuisine: "Mexican", distanceKm: 11.4, img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop", logo: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=100&auto=format&fit=crop", tags: ["Spicy", "Tex-Mex"], cutoffTime: "10:30 AM" }
+            { name: "Saffron & Steam", cuisine: "Indian Fusion", distanceKm: 1.2, img: "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=1200&auto=format&fit=crop", logo: "https://marketplace.canva.com/EAGXsRURT9o/1/0/1600w/canva-yellow-and-brown-kitchen-food-logo-JrzZUwc_CLQ.jpg", tags: ["Halal", "Popular"], cutoffTime: "10:00 AM" },
+            { name: "Bento Planet", cuisine: "Japanese", distanceKm: 2.8, img: "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=1200&auto=format&fit=crop", logo: "https://i.pinimg.com/736x/08/3b/2f/083b2fe2646cd064e3a294bb716810f9.jpg", tags: ["Sushi", "Healthy"], cutoffTime: "9:30 AM" },
+            { name: "Verdant Bowl", cuisine: "Vegan", distanceKm: 0.9, img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop", logo: "https://img.freepik.com/premium-vector/restaurant-logo-icon-barbecue-grill-bar-with-fire-logo-template-with-vintage-style-logo_642964-179.jpg?semt=ais_user_personalization&w=740&q=80", tags: ["Vegan", "GF Options"], cutoffTime: "11:00 AM" },
+            { name: "Tortilla Republic", cuisine: "Mexican", distanceKm: 11.4, img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop", logo: "https://img.freepik.com/premium-vector/restaurant-logo-design-vector-illustration_917213-243861.jpg", tags: ["Spicy", "Tex-Mex"], cutoffTime: "10:30 AM" },
+            { name: "Tortilla Republic", cuisine: "Mexican", distanceKm: 11.4, img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop", logo: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-logo-design-template-e507ca76b1b4fdb1079a83d032975e09_screen.jpg?ts=1647250069", tags: ["Spicy", "Tex-Mex"], cutoffTime: "10:30 AM" }
         ];
 
         const menuItems = [
-            { title: "Grilled Chicken Power Bowl", tags: ["GF", "High‑Protein"] },
-            { title: "Miso Tofu Bento", tags: ["Vegan", "Low‑Sugar"] },
-            { title: "Beef Bulgogi & Rice", tags: ["Dairy‑Free"] },
-            { title: "Harissa Roasted Veg & Halloumi", tags: ["Veg", "GF"] }
+            { title: "Grilled Chicken Power Bowl", tags: ["GF", "High‑Protein"], logoVendor: "https://marketplace.canva.com/EAGXsRURT9o/1/0/1600w/canva-yellow-and-brown-kitchen-food-logo-JrzZUwc_CLQ.jpg" },
+            { title: "Miso Tofu Bento", tags: ["Vegan", "Low‑Sugar"], logoVendor: "https://i.pinimg.com/736x/08/3b/2f/083b2fe2646cd064e3a294bb716810f9.jpg" },
+            { title: "Beef Bulgogi & Rice", tags: ["Dairy‑Free"], logoVendor: "https://i.pinimg.com/736x/08/3b/2f/083b2fe2646cd064e3a294bb716810f9.jpg" },
+            { title: "Falafel Rainbow Bowl", tags: ["Vegan", "High‑Fiber"], logoVendor: "https://img.freepik.com/premium-vector/restaurant-logo-icon-barbecue-grill-bar-with-fire-logo-template-with-vintage-style-logo_642964-179.jpg?semt=ais_user_personalization&w=740&q=80" }
         ];
 
         const catalog = {
@@ -1286,11 +1342,11 @@
             let html = '';
             sorted.forEach(r => {
                 html += `
-                    <div class="col-md-3 col-sm-6">
+                    <div>
                         <div class="restaurant-card">
-                            <img src="${r.img}" alt="${r.name}">
+                            <img src="${r.logo}" alt="${r.name}">
                             <div class="restaurant-card-body">
-                                <h4>${r.name} <span class="badge-custom">${r.distanceKm} km</span></h4>
+                                <h4>${r.name}</h4>
                                 <p>${r.cuisine}</p>
                             </div>
                         </div>
@@ -1309,6 +1365,9 @@
                         <div class="menu-item h-100">
                             <h4><i class="far fa-salad"></i> ${m.title}</h4>
                             <div class="tags">${tagsHtml}</div>
+                            <div class="vendor-logo-small">
+                                <img src="${m.logoVendor}" alt="Vendor Logo">
+                            </div>
                         </div>
                     </div>
                 `;
